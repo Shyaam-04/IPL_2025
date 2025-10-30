@@ -22,7 +22,7 @@ db.connect(error => {
 });
 
 // Get all teams
-app.get('/teams', (req, res) => {
+app.get('/', (req, res) => {
   db.query('SELECT * FROM teams', (err, results) => {
     if (err) return res.status(500).send(err);
     res.json(results);
@@ -30,30 +30,46 @@ app.get('/teams', (req, res) => {
 });
 
 // Get players for a team
-app.get('/teams/:teamId/players', (req, res) => {
-  const teamId = req.params.teamId;
-  const sql = 'SELECT * FROM player WHERE TeamID = ?';
-  db.query(sql, [teamId], (err, results) => {
+app.get('/:TeamID/players', (req, res) => {
+  const TeamID = req.params.TeamID;
+  const sql = 'SELECT * FROM players WHERE TeamID = ?';
+  db.query(sql, [TeamID], (err, results) => {
     if (err) return res.status(500).send(err);
     res.json(results);
   });
 });
 
 // Get player details and stats
-app.get('/players/:playerId', (req, res) => {
-  const playerId = req.params.playerId;
-  db.query('SELECT * FROM player WHERE PlayerID = ?', [playerId], (err, playerResults) => {
+app.get('/players/:PlayerID', (req, res) => {
+  const playerId = req.params.PlayerID;
+
+  db.query('SELECT * FROM players WHERE PlayerID = ?', [playerId], (err, playerResults) => {
     if (err) return res.status(500).send(err);
-    db.query('SELECT * FROM battingstats WHERE PlayerID = ?', [playerId], (err2, battingResults) => {
-      if (err2) return res.status(500).send(err2);
-      db.query('SELECT * FROM bowlingstats WHERE PlayerID = ?', [playerId], (err3, bowlingResults) => {
-        if (err3) return res.status(500).send(err3);
-        res.json({ player: playerResults[0], batting: battingResults[0], bowling: bowlingResults[0] });
-      });
-    });
+    if (playerResults.length === 0) return res.status(404).json({error: 'Player not found'});
+    return res.json({ player: playerResults[0] });
   });
 });
 
+app.get('/players/:PlayerID/batting_stats', (req, res) => {
+  const playerId = req.params.PlayerID;
+  db.query('SELECT * FROM batting_stats WHERE PlayerID = ?', [playerId], (err, battingResults) => {
+    if (err) return res.status(500).send(err);
+    if (battingResults.length === 0) return res.status(404).json({error: 'Batting stats not found for this player'});
+    res.json({ batting: battingResults[0] });
+  });
+});
+
+app.get('/players/:PlayerID/bowling_stats', (req, res) => {
+  const playerId = req.params.PlayerID;
+  db.query('SELECT * FROM bowling_stats WHERE PlayerID = ?', [playerId], (err, bowlingResults) => {
+    if (err) return res.status(500).send(err);
+    if (bowlingResults.length === 0) return res.status(404).json({error: 'Bowling stats not found for this player'});
+    res.json({ bowling: bowlingResults[0] });
+  });
+});
+
+
+    
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on http://localhost:${process.env.PORT}`);
