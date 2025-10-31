@@ -36,14 +36,17 @@ const BattingStat = () => {
           {batting.map(battingStat => (
             <div
               key={battingStat.PlayerID}
-              className="w-[320px] md:w-[400px] lg:w-[500px] bg-slate-900/50 backdrop-blur-sm rounded-xl border border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 p-8 flex flex-col items-center"
+              className="w-[280px] md:w-[340px] lg:w-[370px] bg-slate-900/50 backdrop-blur-sm rounded-xl border border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 p-8 flex flex-col items-center"
             >
               <div className="flex items-center justify-center mb-4">
                 <span className="bg-blue-500/20 text-blue-400 font-bold text-lg px-6 py-2 rounded-full border border-blue-500/40">
                   {battingStat.PlayerID}
                 </span>
               </div>
-              <div className="w-full flex flex-col gap-2 mt-2 text-lg">
+              <div className="w-full flex flex-col gap-1 mt-2 text-lg">
+                <p className="text-blue-400">
+                  <span className="text-blue-600 dark:text-sky-400 font-bold">Name:</span> <span className="text-gray-300">{battingStat.PlayerName}</span>
+                </p>
                 <p className="text-blue-400">
                   <span className="text-blue-600 dark:text-sky-400 font-bold">Matches:</span> <span className="text-gray-300">{battingStat.Matches}</span>
                 </p>

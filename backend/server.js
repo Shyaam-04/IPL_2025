@@ -29,6 +29,27 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/players',(req,res)=>{
+  db.query('select * from players', (err, players) =>{
+    if(err) return res.status(500).send(err);
+    res.json(players);
+  })
+})
+
+app.get('/batting_stats',(req,res)=>{
+  db.query('select players.PlayerName, batting_stats.* from batting_stats join players on batting_stats.PlayerID = players.PlayerID order by batting_stats.RunsScored desc;', (err, orange_cap_results) =>{
+    if (err) return res.status(500).send(err);
+    res.json(orange_cap_results);
+  })
+})
+
+app.get('/bowling_stats',(req,res)=>{
+  db.query('select players.PlayerName, bowling_stats.* from bowling_stats join players on bowling_stats.PlayerID = players.PlayerID order by Wickets desc', (err, purple_cap_results) =>{
+    if (err) return res.status(500).send(err);
+    res.json(purple_cap_results);
+  })
+})
+
 // Get players for a team
 app.get('/:TeamID/players', (req, res) => {
   const TeamID = req.params.TeamID;
@@ -43,16 +64,16 @@ app.get('/:TeamID/players', (req, res) => {
 app.get('/players/:PlayerID', (req, res) => {
   const playerId = req.params.PlayerID;
 
-  db.query('SELECT * FROM players WHERE PlayerID = ?', [playerId], (err, playerResults) => {
+  db.query('SELECT * FROM players WHERE PlayerID = ?', [playerId], (err, playerTeamResults) => {
     if (err) return res.status(500).send(err);
-    if (playerResults.length === 0) return res.status(404).json({error: 'Player not found'});
-    return res.json({ player: playerResults[0] });
+    if (playerTeamResults.length === 0) return res.status(404).json({error: 'Player not found'});
+    return res.json({ player: playerTeamResults[0] });
   });
 });
 
 app.get('/players/:PlayerID/batting_stats', (req, res) => {
   const playerId = req.params.PlayerID;
-  db.query('SELECT * FROM batting_stats WHERE PlayerID = ?', [playerId], (err, battingResults) => {
+  db.query('select players.PlayerName, batting_stats.* from batting_stats join players on batting_stats.PlayerID = players.PlayerID where batting_stats.PlayerID = ?;', [playerId], (err, battingResults) => {
     if (err) return res.status(500).send(err);
     if (battingResults.length === 0) return res.status(404).json({error: 'Batting stats not found for this player'});
     res.json({ batting: battingResults[0] });
@@ -61,12 +82,18 @@ app.get('/players/:PlayerID/batting_stats', (req, res) => {
 
 app.get('/players/:PlayerID/bowling_stats', (req, res) => {
   const playerId = req.params.PlayerID;
-  db.query('SELECT * FROM bowling_stats WHERE PlayerID = ?', [playerId], (err, bowlingResults) => {
+  db.query('select players.PlayerName, bowling_stats.* from bowling_stats join players on bowling_stats.PlayerID = players.PlayerID where bowling_stats.PlayerID = ?;', [playerId], (err, bowlingResults) => {
     if (err) return res.status(500).send(err);
     if (bowlingResults.length === 0) return res.status(404).json({error: 'Bowling stats not found for this player'});
     res.json({ bowling: bowlingResults[0] });
   });
 });
+
+
+
+
+
+
 
 
     

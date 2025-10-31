@@ -55,7 +55,10 @@ const BowlingStat = () => {
                     {bowlingStat.PlayerID}
                   </span>
                 </div>
-                 <div className="w-full flex flex-col gap-2 mt-2 text-lg">
+                 <div className="w-full flex flex-col gap-1.5 mt-2 text-lg">
+                  <p className="text-blue-400">
+                  <span className="text-blue-600 dark:text-sky-400 font-bold">Name:</span> <span className="text-gray-300">{bowlingStat.PlayerName}</span>
+                </p>
                 <p className="text-blue-400">
                   <span className="text-blue-600 dark:text-sky-400 font-bold">Matches:</span> <span className="text-gray-300">{bowlingStat.MatchesPlayed}</span>
                 </p>

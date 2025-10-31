@@ -2,12 +2,12 @@ import React from 'react'
 import {Route, Routes} from "react-router"  
 import HomePage from './pages/HomePage'
 import PlayersPage from './pages/PlayersPage'
-import PlayerInfoPage from './pages/PlayerInfoPage'
 import BattingStat from './pages/BattingStat'
 import BowlingStat from './pages/BowlingStat'
 //import TeamsPage from './pages/TeamsPage'
 import OrangeCapStats from './pages/OrangeCapStats'
 import PurpleCapStats from './pages/PurpleCapStats'
+import TotalPlayersPage from './pages/TotalPlayersPage'
 
 const App = () => {
   return (
@@ -25,8 +25,9 @@ const App = () => {
           {/*<Route path="/players/:PlayerId" element={<PlayerInfoPage />} />*/}  
           <Route path="/players/:PlayerID/batting_stats" element={<BattingStat />} />
           <Route path="/players/:PlayerID/bowling_stats" element={<BowlingStat />} />
-          <Route path="/orange-cap" element={<OrangeCapStats />} />
-          <Route path="/purple-cap" element={<PurpleCapStats />} />
+          <Route path="/batting_stats" element={<OrangeCapStats />} />
+          <Route path="/bowling_stats" element={<PurpleCapStats />} />
+          <Route path="/players" element={<TotalPlayersPage />} />
         </Routes>
     </div>
   )
