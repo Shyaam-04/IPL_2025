@@ -30,21 +30,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/players',(req,res)=>{
-  db.query('select * from players', (err, players) =>{
+  db.query('select teams.TeamName, players.* from players join teams on teams.TeamID = players.TeamID', (err, players) =>{
     if(err) return res.status(500).send(err);
     res.json(players);
   })
 })
 
 app.get('/batting_stats',(req,res)=>{
-  db.query('select players.PlayerName, batting_stats.* from batting_stats join players on batting_stats.PlayerID = players.PlayerID order by batting_stats.RunsScored desc;', (err, orange_cap_results) =>{
+  db.query('select players.PlayerName, teams.TeamID, batting_stats.* from batting_stats join players on batting_stats.PlayerID = players.PlayerID join teams on teams.TeamID = players.TeamID order by batting_stats.RunsScored desc;', (err, orange_cap_results) =>{
     if (err) return res.status(500).send(err);
     res.json(orange_cap_results);
   })
 })
 
 app.get('/bowling_stats',(req,res)=>{
-  db.query('select players.PlayerName, bowling_stats.* from bowling_stats join players on bowling_stats.PlayerID = players.PlayerID order by Wickets desc', (err, purple_cap_results) =>{
+  db.query('select players.PlayerName, teams.TeamID, bowling_stats.* from bowling_stats join players on bowling_stats.PlayerID = players.PlayerID join teams on teams.TeamID = players.TeamID order by Wickets desc', (err, purple_cap_results) =>{
     if (err) return res.status(500).send(err);
     res.json(purple_cap_results);
   })
