@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const PORT = process.env.PORT || 5000
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -20,10 +22,10 @@ const db = mysql.createPool({
   }
 });
 
-db.connect(error => {
+/*db.connect(error => {
   if (error) throw error;
   console.log("MySQL connected!");
-});
+});*/
 
 // Get all teams
 app.get('/', (req, res) => {
@@ -102,6 +104,6 @@ app.get('/players/:PlayerID/bowling_stats', (req, res) => {
 
     
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on http://localhost:${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
 });
