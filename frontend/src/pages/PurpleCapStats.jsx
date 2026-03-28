@@ -59,7 +59,7 @@ const PurpleCapStats = () => {
     
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/bowling_stats");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/bowling_stats`);
         // Introduce artificial delay to showcase the loading screen
         await new Promise(resolve => setTimeout(resolve, 1200));
         setPlayers(response.data);

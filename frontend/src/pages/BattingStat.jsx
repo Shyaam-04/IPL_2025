@@ -9,7 +9,7 @@ const BattingStat = () => {
   const { PlayerID } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/players/${PlayerID}/batting_stats`)
+    axios.get(`${import.meta.env.VITE_API_URL}/players/${PlayerID}/batting_stats`)
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data)) {

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router"; 
 import Navbar from "../components/Navbar";
 import { Link } from "react-router"; 
-import { UserPlus, TrendingUp, DollarSign, Globe, Calendar, Component, ShieldHalf, CircleUserRound, User } from "lucide-react";
+import { TrendingUp, DollarSign, Globe, Calendar, Component, ShieldHalf } from "lucide-react";
 import mi from '../assets/mi.png'
 import csk from "../assets/csk.png"
 import pbks from "../assets/pbks.png"
@@ -63,7 +62,7 @@ const TotalPlayersPage = () => {
     
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/players`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/players`);
             await new Promise(resolve => setTimeout(resolve, 1200)); 
             setPlayers(response.data);
         } catch (error) {

@@ -38,7 +38,7 @@ const PlayersPage = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/${TeamID}/players`)
+    axios.get(`${import.meta.env.VITE_API_URL}/${TeamID}/players`)
       .then((response) => setPlayers(response.data))
       .catch((error) => console.error(error));
   }, [TeamID]);

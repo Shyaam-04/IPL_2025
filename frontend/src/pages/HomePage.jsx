@@ -43,7 +43,7 @@ const HomePage = () => {
     
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/`);
         // Introduce artificial delay to showcase the loading screen
         await new Promise(resolve => setTimeout(resolve, 1200));
         setTeams(response.data);

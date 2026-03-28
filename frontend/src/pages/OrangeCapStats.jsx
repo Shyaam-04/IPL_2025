@@ -59,7 +59,7 @@ const OrangeCapStats = () => {
     
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/batting_stats");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/batting_stats`);
         // Introduce artificial delay to showcase the loading screen
         await new Promise(resolve => setTimeout(resolve, 1200));
         setPlayers(response.data);
